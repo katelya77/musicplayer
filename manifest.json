@@ -1,7 +1,7 @@
 {
   "name": "Katelya Player",
   "short_name": "Katelya Player",
-  "description": "Katelya音乐播放器 - 具有霓虹特效的现代音乐播放器",
+  "description": "Katelya音乐播放器 - 现代音乐播放器",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0a0a0f",
