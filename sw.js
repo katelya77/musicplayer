@@ -1,4 +1,4 @@
-const CACHE_NAME = 'neon-music-player-v1';
+const CACHE_NAME = 'katelya-music-player-v1';
 const urlsToCache = [
   '/',
   '/index.html',
