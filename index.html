@@ -549,7 +549,7 @@
 
             <!-- 标题区域 -->
             <div class="header">
-                <h1>🎵 Katelya PLAYER</h1>
+                <h1>🎵 KATELYA PLAYER</h1>
                 <div class="subtitle">霓虹音乐播放器 - 体验未来音乐</div>
             </div>
 
@@ -1011,6 +1011,58 @@
                 [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
             }
             return array;
+        }
+
+        // PWA功能设置
+        function setupPWAInstall() {
+            let deferredPrompt;
+            
+            // 监听beforeinstallprompt事件
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                showInstallButton();
+            });
+
+            // 创建安装按钮
+            function showInstallButton() {
+                const installBtn = document.createElement('button');
+                installBtn.className = 'control-btn special-btn pwa-install-btn';
+                installBtn.innerHTML = '<i class="fas fa-download"></i> 安装应用';
+                installBtn.style.marginLeft = '10px';
+                
+                installBtn.addEventListener('click', async () => {
+                    if (deferredPrompt) {
+                        deferredPrompt.prompt();
+                        const { outcome } = await deferredPrompt.userChoice;
+                        console.log(`用户选择: ${outcome}`);
+                        deferredPrompt = null;
+                        installBtn.remove();
+                    }
+                });
+                
+                document.querySelector('.controls').appendChild(installBtn);
+            }
+
+            // 监听应用安装成功
+            window.addEventListener('appinstalled', () => {
+                console.log('PWA安装成功');
+                const installBtn = document.querySelector('.pwa-install-btn');
+                if (installBtn) installBtn.remove();
+            });
+        }
+
+        // Service Worker注册
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then((registration) => {
+                        console.log('Katelya Player SW注册成功: ', registration.scope);
+                    })
+                    .catch((registrationError) => {
+                        console.log('Katelya Player SW注册失败: ', registrationError);
+                    });
+            });
         }
     </script>
 </body>
